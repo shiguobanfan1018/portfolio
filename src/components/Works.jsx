@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Chapter from "./Chapter.jsx";
 import SplitText from "./SplitText.jsx";
 import { works, posters } from "../data/site.js";
+import { asset } from "../lib/asset.js";
 import SpecularButton from "./SpecularButton.jsx";
 import "./Works.css";
 
@@ -483,7 +484,7 @@ export default function Works() {
               2024.12 静态校园官网网页实训（HTML / HBuilder X，独立完成架构规划与多页面搭建）；
               以及若干课堂版式与微场景练习，可按需补进作品集。
             </p>
-            <a className="works__more-link" href="/resume.pdf" target="_blank" rel="noreferrer">
+            <a className="works__more-link" href={asset("/resume.pdf")} target="_blank" rel="noreferrer">
               完整简历 PDF <ArrowUpRight size={12} />
             </a>
           </div>

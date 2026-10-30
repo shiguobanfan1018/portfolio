@@ -2,6 +2,7 @@ import { useState } from "react";
 import Chapter from "./Chapter.jsx";
 import SplitText from "./SplitText.jsx";
 import { me, about, stats, timeline, capabilities } from "../data/site.js";
+import { asset } from "../lib/asset.js";
 import SpecularButton from "./SpecularButton.jsx";
 import "./Profile.css";
 
@@ -69,7 +70,7 @@ export default function Profile() {
                 <span className="portrait__mono">SC</span>
               ) : (
                 <img
-                  src="/portrait-cut.webp"
+                  src={asset("/portrait-cut.webp")}
                   alt={`${me.name} 的个人照片`}
                   width="900"
                   height="1350"

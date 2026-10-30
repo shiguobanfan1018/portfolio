@@ -4,6 +4,8 @@
  * 所有数据均来自简历 / VIS 手册 / 河北文创长图 / 动画成片。
  */
 
+import { asset } from "../lib/asset.js";
+
 export const me = {
   name: "石超",
   nameEn: "SHI CHAO",
@@ -45,8 +47,8 @@ export const hero = {
     "CorelDRAW",
   ],
   reel: {
-    video: "/hero-loop.mp4",
-    poster: "/showreel-poster.jpg",
+    video: asset("/hero-loop.mp4"),
+    poster: asset("/showreel-poster.jpg"),
     label: "SHOWREEL 作品片花",
     note: "静音循环",
   },
@@ -122,8 +124,8 @@ export const works = [
     metric: "一次过审 0 返修",
     media: {
       type: "video",
-      src: "/showreel.mp4",
-      poster: "/showreel-poster.jpg",
+      src: asset("/showreel.mp4"),
+      poster: asset("/showreel-poster.jpg"),
       ratio: "16 / 9",
       caption: "成片节选 21 秒",
     },
@@ -148,21 +150,21 @@ export const works = [
     metric: "37 页 可直接执行",
     media: {
       type: "image",
-      src: "/vis/cover.jpg",
+      src: asset("/vis/cover.jpg"),
       ratio: "4 / 3",
       caption: "手册封面 兰亭宴 VIS",
     },
     gallery: [
-      { src: "/vis/merch.jpg", label: "文创产品" },
-      { src: "/vis/ip.jpg", label: "IP 形象 兰小鹤" },
-      { src: "/vis/storefront.jpg", label: "门头应用" },
+      { src: asset("/vis/merch.jpg"), label: "文创产品" },
+      { src: asset("/vis/ip.jpg"), label: "IP 形象 兰小鹤" },
+      { src: asset("/vis/storefront.jpg"), label: "门头应用" },
     ],
     /* 手册原件：放在卡片下方，点开就是完整的 37 页 PDF */
     links: [
       {
         label: "完整《兰亭宴》VIS 手册 37 页",
         meta: "PDF 8.4 MB 新窗口打开",
-        href: "/vis/lantingyan-vis.pdf",
+        href: asset("/vis/lantingyan-vis.pdf"),
       },
     ],
     highlights: [
@@ -186,7 +188,7 @@ export const works = [
     metric: "5 大系列 单张长图",
     media: {
       type: "image",
-      src: "/work-hebei.webp",
+      src: asset("/work-hebei.webp"),
       ratio: "1 / 3.34",
       position: "top",
       pan: true,
@@ -238,28 +240,28 @@ export const posters = [
     index: "P1",
     title: "透视网格",
     note: "立体透视",
-    image: "/posters/poster-01.jpg",
+    image: asset("/posters/poster-01.jpg"),
   },
   {
     id: "p2",
     index: "P2",
     title: "路径文字",
     note: "路径绕排",
-    image: "/posters/poster-02.jpg",
+    image: asset("/posters/poster-02.jpg"),
   },
   {
     id: "p3",
     index: "P3",
     title: "充电",
     note: "混合轴 字体",
-    image: "/posters/poster-03.jpg",
+    image: asset("/posters/poster-03.jpg"),
   },
   {
     id: "p4",
     index: "P4",
     title: "绿色出行",
     note: "扁平插画",
-    image: "/posters/poster-04.jpg",
+    image: asset("/posters/poster-04.jpg"),
   },
 ];
 

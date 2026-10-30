@@ -3,6 +3,7 @@ import SplitText from "./SplitText.jsx";
 import CursorGlow from "./CursorGlow.jsx";
 import { prefersReduced } from "../lib/motion.js";
 import { hero } from "../data/site.js";
+import { asset } from "../lib/asset.js";
 import SpecularButton from "./SpecularButton.jsx";
 import "./Hero.css";
 
@@ -86,8 +87,8 @@ export default function Hero() {
         <video
           ref={videoRef}
           className="hero__bg"
-          src="/hero-bg.mp4"
-          poster="/hero-bg-poster.webp"
+          src={asset("/hero-bg.mp4")}
+          poster={asset("/hero-bg-poster.webp")}
           autoPlay={!prefersReduced()}
           muted
           loop

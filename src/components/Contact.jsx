@@ -1,5 +1,6 @@
 import SplitText from "./SplitText.jsx";
 import { me } from "../data/site.js";
+import { asset } from "../lib/asset.js";
 import "./Contact.css";
 
 export default function Contact() {
@@ -66,7 +67,7 @@ export default function Contact() {
           <span className="contact__copy">© 2026 {me.name}　个人作品集</span>
           <div className="contact__foot-links">
             {/* 把简历放到 public/resume.pdf，这个链接就能直接下载 */}
-            <a href="/resume.pdf" download>
+            <a href={asset("/resume.pdf")} download>
               下载简历 PDF
             </a>
             <a href="#home">回到顶部 ↑</a>
