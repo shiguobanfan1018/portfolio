@@ -1,0 +1,228 @@
+.contact {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* 底部一团极淡的香槟光晕，收住整页 */
+.contact__glow {
+  position: absolute;
+  width: 1100px;
+  height: 760px;
+  left: 50%;
+  bottom: -420px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(211, 178, 127, 0.12),
+    rgba(211, 178, 127, 0.04) 42%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.contact__inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 108px;
+  padding-bottom: 56px;
+}
+
+.contact__chapter {
+  padding-bottom: 0;
+}
+
+.contact__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 48px 0 40px;
+}
+
+.contact__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(36px, 5.2vw, 104px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.contact__line {
+  display: block;
+}
+
+/* 和首屏同一套处理：后半句换衬线 + 主色 */
+.contact__serif {
+  margin-left: 0.1em;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.contact__serif .split__c {
+  color: var(--accent);
+}
+
+/* 尾签：一行小字收掉整页 */
+.contact__thanks {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: clamp(20px, 2.4vh, 30px);
+  font-size: 11.5px;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--text-3);
+}
+
+.contact__thanks::before,
+.contact__thanks::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--line-3);
+}
+
+.contact__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 46px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.contact-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 24px 26px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  text-decoration: none;
+  text-align: left;
+  transition: border-color 0.4s var(--ease), background 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+
+.contact-card:hover {
+  border-color: var(--accent-line);
+  background: var(--sage-2);
+  transform: translateY(-3px);
+}
+
+.contact-card__label {
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.contact-card__value {
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.contact-card__hint {
+  font-size: 11px;
+  color: var(--text-4);
+  letter-spacing: 0.06em;
+  transition: color 0.3s;
+}
+
+.contact-card:hover .contact-card__hint {
+  color: var(--text-3);
+}
+
+.contact__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 26px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+}
+
+.contact__meta li {
+  position: relative;
+}
+
+.contact__meta li + li::before {
+  content: "/";
+  position: absolute;
+  left: -15px;
+  color: var(--text-4);
+  opacity: 0.6;
+}
+
+/* ---------- 页脚 ---------- */
+.contact__foot {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--line);
+}
+
+.contact__foot-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-top: 22px;
+  padding-bottom: 24px;
+}
+
+.contact__copy,
+.contact__foot-links a {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contact__foot-links {
+  display: flex;
+  gap: 26px;
+}
+
+.contact__foot-links a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 720px) {
+  .contact__inner {
+    padding-top: 84px;
+  }
+  .contact__body {
+    padding: 36px 0 28px;
+  }
+  .contact__actions {
+    grid-template-columns: 1fr;
+    margin-top: 34px;
+  }
+  .contact__foot-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,56 @@
+/* ============================================================
+   theme.css —— 全站设计令牌（想换风格只改这里）
+   暗色 · 石墨黑纸面 · 香槟黄铜点缀
+   原则：只有一处亮色（WebGL 纤维），其余靠留白与发丝线撑结构
+   ============================================================ */
+
+:root {
+  /* 背景层次：越往后越浅，用来做卡片与悬浮层 */
+  --bg: #08080a;
+  --bg-2: #0a0a0d;
+  --surface: #0f0f12;
+  --surface-2: #141418;
+  --surface-3: #1b1b20;
+
+  /* 描边：全部走低透明度的米白，暗底上才有「发丝线」的锐度 */
+  --line: rgba(240, 236, 227, 0.09);
+  --line-2: rgba(240, 236, 227, 0.15);
+  --line-3: rgba(240, 236, 227, 0.26);
+
+  /* 文字 */
+  --text: #f3f0e8;
+  --text-2: #a5a199;
+  --text-3: #77746e;
+  --text-4: #524f4b;
+
+  /* 主色：哑光香槟，只在标签、序号、强调词与数字上出现 */
+  --accent: #d3b27f;
+  --accent-2: #ebd6ac;
+  --accent-dim: rgba(211, 178, 127, 0.1);
+  --accent-line: rgba(211, 178, 127, 0.3);
+  /* 主色底上的文字 */
+  --on-accent: #0a0a0b;
+
+  /* 中性填充（原浅色主题的 sage 位置，暗色下退成一层灰） */
+  --sage: #101014;
+  --sage-2: #17171c;
+
+  /* 字体 */
+  --font: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  --font-cn: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  /* 衬线：只在大标题的强调词上用，做字重与字体的对比 */
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong",
+    "SimSun", Georgia, serif;
+
+  /* 尺寸：PC 优先，版心 1700px */
+  --container: 1700px;
+  --pad: clamp(24px, 4vw, 80px);
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 20px;
+
+  /* 动效 */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur: 0.55s;
+}

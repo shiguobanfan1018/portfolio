@@ -1,0 +1,401 @@
+/* ============================================================
+   Hero —— 水下荷塘视频背景 + 居中三层排版 + 底部三格数据
+   文字全部裸排印（白字直接落画面，不加胶囊不加底色）。
+   排版约定：内容贴导航下方，中部整块留白给画面主角的脸。
+   ============================================================ */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding-top: clamp(92px, 6.2vw, 112px);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+}
+
+/* ── 背景层 ── */
+.hero__stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg);
+}
+
+/* 背景片：铺满整屏，不压暗不去饱和；轻微放大下移，
+   把画面主角的脸挪进标题带下方的呼吸区（居中标题会正好盖脸） */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 46%;
+  transform: scale(1.08) translateY(3.5%);
+}
+
+/* 颗粒：只压在中间调上，给数字画面一点胶片感 */
+.hero__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── 滚动衔接层 ──
+   首屏是亮的视频画面，往下直接硬切到暗色内容区会很生硬。
+   这两层静止时 opacity:0 完全不参与画面；滚离首屏时由 ScrollTrigger
+   擦亮：exit 把画面底部渐隐进页面底色，seam 在交界处扫一道香槟光线。 */
+.hero__exit {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+  height: 44%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, transparent, var(--bg) 64%);
+}
+
+.hero__seam {
+  position: absolute;
+  inset: auto 0 -1px 0;
+  z-index: 3;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent 6%, var(--accent) 50%, transparent 94%);
+  transform: scaleX(0.22);
+}
+
+/* ── 居中内容 ── */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 内容贴导航下方：中部留白给画面主角，标题带不再压脸 */
+  justify-content: flex-start;
+  text-align: center;
+  padding-top: clamp(4px, 1vh, 14px);
+  padding-bottom: clamp(8px, 2vh, 28px);
+}
+
+/* 大标题：白色裸排印，字号压在 5.8vw —— 再大会压回角色脸上 */
+.hero__title {
+  margin-top: 0;
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(36px, 5.8vw, 100px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.hero__line {
+  display: block;
+}
+
+/* 后半句换成衬线 + 香槟色：字重、字体、颜色三重对比 */
+.hero__serif {
+  margin-left: 0.1em;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  color: var(--accent);
+}
+
+.hero__serif .split__c {
+  color: var(--accent);
+}
+
+.hero__dot {
+  display: inline-block;
+  width: clamp(8px, 0.72vw, 13px);
+  height: clamp(8px, 0.72vw, 13px);
+  margin-left: 0.16em;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 18px 2px rgba(211, 178, 127, 0.35);
+  vertical-align: 0.08em;
+  opacity: 0;
+  animation: heroDotIn 0.9s var(--ease) 1.15s forwards,
+    heroDot 2.8s ease-in-out 2s infinite;
+}
+
+@keyframes heroDotIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes heroDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.74);
+  }
+}
+
+/* 按钮：主按钮骨白实心胶囊（base.css），次级保留下划线文字入口。
+   选择器带 .btn 是为了压过 base.css 里的 .btn--ghost（base.css 在 App 之后导入） */
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(22px, 3vh, 40px);
+}
+
+/* 玻璃棱镜按钮（React Bits SpecularButton）：比站内通用按钮略高一档 */
+.hero__actions .specular-button {
+  height: 48px;
+  padding: 0 28px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ── 底部数据行 ── */
+.hero__foot {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  /* 底部不垫暗底、不描阴影：数据行直接落在画面上，只靠提亮的字色站住 */
+  color: rgba(243, 240, 232, 0.96);
+}
+
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 24px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(243, 240, 232, 0.28);
+}
+
+.hero__stat {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: rgba(243, 240, 232, 0.84);
+}
+
+.hero__stat:nth-child(2) {
+  justify-self: center;
+}
+
+.hero__stat:nth-child(3) {
+  justify-self: end;
+}
+
+.hero__stat-ico {
+  display: inline-flex;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.hero__stat-num {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.hero__stat-num i {
+  margin-left: 2px;
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(243, 240, 232, 0.72);
+}
+
+.hero__stat-label {
+  white-space: nowrap;
+}
+
+/* 最底一行：滚动提示 / 工具链 / 片花入口 */
+.hero__sig {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 0 clamp(14px, 2vh, 24px);
+}
+
+.hero__scroll {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  font-size: 9.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(243, 240, 232, 0.8);
+  text-decoration: none;
+  transition: color 0.4s var(--ease);
+}
+
+.hero__scroll:hover {
+  color: var(--accent);
+}
+
+.hero__scroll i {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(180deg, rgba(243, 240, 232, 0.34), transparent);
+  overflow: hidden;
+}
+
+.hero__scroll i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 12px;
+  background: var(--accent);
+  animation: heroScroll 2.4s var(--ease) infinite;
+}
+
+@keyframes heroScroll {
+  0% {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+}
+
+.hero__tools {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(243, 240, 232, 0.8);
+}
+
+.hero__tools li {
+  transition: color 0.4s var(--ease);
+}
+
+.hero__tools li:hover {
+  color: var(--text);
+}
+
+.hero__tc {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(243, 240, 232, 0.8);
+}
+
+/* 片花入口：一个小三角 + 一行字，不用按钮，保持克制 */
+.hero__reel {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(243, 240, 232, 0.88);
+  text-decoration: none;
+  transition: color 0.4s var(--ease);
+}
+
+.hero__reel:hover {
+  color: var(--accent);
+}
+
+.hero__reel-ico {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid rgba(243, 240, 232, 0.4);
+  transition: border-color 0.4s var(--ease);
+}
+
+.hero__reel-ico::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 3px 0 3px 4.5px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.hero__reel:hover .hero__reel-ico {
+  border-color: var(--accent-line);
+}
+
+/* ── 响应式 ── */
+@media (max-width: 1180px) {
+  .hero__tools {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    padding-top: 88px;
+  }
+  .hero__stats {
+    gap: 14px;
+    font-size: 10.5px;
+  }
+  .hero__stat-label {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  .hero__actions .specular-button {
+    width: 100%;
+  }
+  .hero__tc {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__dot,
+  .hero__scroll i::after {
+    animation: none;
+  }
+}

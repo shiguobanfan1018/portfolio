@@ -1,0 +1,295 @@
+@import "./theme.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* ---------- 布局 ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+.section {
+  position: relative;
+  padding-top: clamp(76px, 9vw, 132px);
+  padding-bottom: clamp(76px, 9vw, 132px);
+  scroll-margin-top: 78px;
+}
+
+.hero {
+  scroll-margin-top: 0;
+}
+
+.section--hairline {
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- 通用文字 ---------- */
+.mono {
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--accent-line);
+}
+
+.h2 {
+  font-size: clamp(28px, 2.9vw, 54px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  font-family: var(--font-cn);
+}
+
+.h2 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.lead {
+  margin-top: 18px;
+  max-width: 620px;
+  font-size: 15px;
+  line-height: 1.95;
+  color: var(--text-2);
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.35s var(--ease), background 0.35s var(--ease),
+    color 0.35s var(--ease), border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+
+.btn:active {
+  transform: scale(0.975);
+}
+
+/* 主按钮：骨白实心，是暗底上最亮的一块，一屏只出现一次 */
+.btn--primary {
+  background: var(--text);
+  color: #0a0a0b;
+  font-weight: 600;
+}
+
+.btn--primary:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.95);
+}
+
+.btn--ghost {
+  border-color: var(--line-2);
+  color: var(--text);
+  background: rgba(240, 236, 227, 0.02);
+}
+
+.btn--ghost:hover {
+  border-color: var(--line-3);
+  background: rgba(240, 236, 227, 0.06);
+  transform: translateY(-2px);
+}
+
+.btn--sm {
+  height: 38px;
+  padding: 0 18px;
+  font-size: 12px;
+}
+
+/* ---------- 章节标题（时间轴母题） ---------- */
+.chapter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 26px;
+}
+
+.chapter__idx {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.chapter__rule {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.chapter__rule::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 42px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.85;
+}
+
+.chapter__label {
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.chapter__time {
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--text-4);
+}
+
+/* ---------- 滚动显影 ----------
+   初始态与动画都由 src/lib/motion.js 用 GSAP 接管（useLayoutEffect 里设初值，
+   绘制前完成，不会闪）。这里只留终态与「减少动效」的兜底。 */
+
+/* ---------- 逐字上浮（SplitText） ---------- */
+.split {
+  display: inline;
+}
+
+.split--block {
+  display: block;
+}
+
+/* 每个字的遮罩：上下留出 padding 防止裁掉字头与字脚，再用负 margin 还原行高 */
+.split__m {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.16em 0;
+  margin: -0.16em 0;
+}
+
+.split__c {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* 进场结束后遮罩就完成了使命：放开裁切，字才能被鼠标吸着走动 */
+.split.is-done .split__m {
+  overflow: visible;
+}
+
+/* 强调色的字用实色，避免每个字各自一段渐变 */
+.split--em .split__c {
+  color: var(--accent);
+}
+
+/* 滚动的数字用等宽数位，位数变化时不会左右跳 */
+[data-count] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* 减少动效：所有进场动画直接给终态 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal],
+  [data-reveal="img"] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  .split__c {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

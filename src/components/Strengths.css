@@ -1,0 +1,112 @@
+.st__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+  gap: clamp(24px, 4vw, 72px);
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+
+.st__note {
+  font-size: 13.5px;
+  line-height: 1.95;
+  color: var(--text-2);
+  padding-bottom: 6px;
+}
+
+.st__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.4vw, 20px);
+}
+
+.st-card {
+  position: relative;
+  padding: clamp(24px, 2.4vw, 34px);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 26px 50px -46px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  transition: border-color 0.45s var(--ease), transform 0.45s var(--ease),
+    background 0.45s var(--ease);
+}
+
+/* 顶部一条金线，hover 时展开 */
+.st-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transition: width 0.6s var(--ease);
+}
+
+.st-card:hover {
+  border-color: var(--accent-line);
+  transform: translateY(-4px);
+  background: var(--sage-2);
+}
+
+.st-card:hover::before {
+  width: 100%;
+}
+
+.st-card__index {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.st-card__title {
+  margin-top: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-family: var(--font-cn);
+}
+
+.st-card__desc {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text-2);
+}
+
+.st-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.st-card__tags li {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-2);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: rgba(240, 236, 227, 0.035);
+}
+
+@media (max-width: 1000px) {
+  .st__head {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .st__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .st__grid {
+    grid-template-columns: 1fr;
+  }
+}

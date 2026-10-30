@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+
+# 源素材（33MB 原片/备份，不进仓库，站点只需 public/ 内的压缩版）
+源素材

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08080a" />
+    <title>石超 新媒体设计师 视觉与内容</title>
+    <meta
+      name="description"
+      content="石超的个人作品集 —— 以视觉为媒介，用设计传递表达。品牌 VIS、海报版式、文创视觉、二维动画与短视频。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- 字体 CSS 非阻塞加载：不挡首帧，加载完再应用（display=swap 先用系统字体顶住）。
+         字重只保留 CSS 里真正用到的：Inter 400-700、思源黑体 400/500/600/700/900、思源宋体 600 -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@600&display=swap"
+      />
+    </noscript>
+    <!-- 首屏封面帧提前拉：视频起播前它就是最大的可见画面 -->
+    <link rel="preload" as="image" href="/hero-bg-poster.webp" fetchpriority="high" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

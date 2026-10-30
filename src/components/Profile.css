@@ -1,0 +1,507 @@
+.profile__grid {
+  display: grid;
+  grid-template-columns: 400px minmax(0, 1fr);
+  gap: clamp(40px, 5vw, 96px);
+  align-items: start;
+}
+
+/* ================= 头像 ================= */
+.portrait {
+  margin: 0;
+  position: sticky;
+  top: 104px;
+}
+
+.portrait__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(78% 60% at 30% 12%, rgba(211, 178, 127, 0.11), transparent 64%),
+    radial-gradient(76% 76% at 84% 94%, rgba(110, 130, 170, 0.06), transparent 66%),
+    linear-gradient(158deg, #191920 0%, #0e0e12 56%, #131318 100%);
+  display: grid;
+  place-items: center;
+}
+
+.portrait__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.portrait__media img {
+  /* 绝对定位 + contain：2:3 的全身立绘完整装进 4:5 容器，
+     底对齐站立，左右留边，绝不裁切 */
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: contrast(1.04) saturate(0.96) brightness(1)
+    drop-shadow(0 0 44px rgba(211, 178, 127, 0.16));
+  /* Q 版立绘是透明底 PNG，边缘干净，不做底部渐隐，完整站在卡片里 */
+}
+
+/* 头部背后的一团暖光 */
+.portrait__glow {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: 78%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(211, 178, 127, 0.14),
+    rgba(211, 178, 127, 0.04) 46%,
+    transparent 68%
+  );
+  filter: blur(2px);
+  z-index: 1;
+}
+
+.portrait__mono {
+  font-size: 62px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(240, 236, 227, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.portrait__plate {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.portrait__name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-family: var(--font-cn);
+}
+
+.portrait__en {
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  color: var(--text-4);
+}
+
+.portrait__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.portrait__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.portrait__born {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--text-4);
+}
+
+/* ================= 正文 ================= */
+.profile__text {
+  margin-top: 26px;
+  max-width: 760px;
+}
+
+.profile__text p {
+  font-size: 14.5px;
+  line-height: 2;
+  color: var(--text-2);
+}
+
+.profile__text p + p {
+  margin-top: 16px;
+}
+
+.facts {
+  margin: 34px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.facts__row {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.facts__row dt {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  padding-top: 3px;
+}
+
+.facts__row dd {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ================= 联系方式 ================= */
+.connect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.connect__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: rgba(240, 236, 227, 0.03);
+  color: var(--text-2);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease),
+    background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.connect__item:hover {
+  color: var(--text);
+  border-color: var(--accent-line);
+  background: var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.connect__item svg {
+  color: var(--accent);
+}
+
+.connect__copy.is-copied {
+  color: var(--accent);
+  border-color: var(--accent-line);
+}
+
+/* 玻璃棱镜按钮接管原来的胶囊：底色交给 tint，描边去掉，只留边缘那道光 */
+.connect__item.specular-button {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  border-color: transparent;
+  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 100%), transparent);
+}
+
+.connect__item.specular-button:hover {
+  color: var(--text);
+  border-color: transparent;
+  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 260%), transparent);
+}
+
+.connect__copy.specular-button.is-copied {
+  color: var(--accent);
+}
+
+.connect__item.specular-button svg {
+  color: var(--accent);
+}
+
+/* ================= 数据 ================= */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(48px, 6vw, 76px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.stat {
+  padding: 30px 26px 30px 0;
+  border-left: 1px solid var(--line);
+}
+
+.stat:first-child {
+  border-left: 0;
+}
+
+.stat:nth-child(n + 2) {
+  padding-left: 26px;
+}
+
+.stat__value {
+  display: block;
+  font-size: clamp(30px, 3.2vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.stat__value i {
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--accent);
+  margin-left: 3px;
+  letter-spacing: 0;
+}
+
+.stat__label {
+  display: block;
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+}
+
+/* ================= 经历时间线 ================= */
+.timeline {
+  list-style: none;
+  margin: clamp(48px, 6vw, 76px) 0 0;
+  padding: 0;
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 56px);
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.timeline__item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.timeline__time {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  padding-top: 5px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.timeline__time::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(211, 178, 127, 0.14);
+}
+
+.timeline__title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+.timeline__org {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.timeline__desc {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--text-2);
+  max-width: 720px;
+}
+
+/* ================= 作品内容 ================= */
+.caps {
+  margin-top: clamp(44px, 5vw, 70px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.caps__head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.caps__label {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--text);
+}
+
+.caps__sub {
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+.caps__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.caps__item a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 20px 18px 22px;
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.4s var(--ease);
+}
+
+.caps__item a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
+}
+
+.caps__item a:hover {
+  background: var(--sage-2);
+}
+
+.caps__item a:hover::after {
+  transform: scaleX(1);
+}
+
+.caps__num {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.caps__name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.caps__note {
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+}
+
+.caps__arrow {
+  position: absolute;
+  right: 16px;
+  top: 18px;
+  color: var(--text-4);
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+
+.caps__item a:hover .caps__arrow {
+  opacity: 1;
+  transform: none;
+  color: var(--accent);
+}
+
+/* ================= 响应式 ================= */
+@media (max-width: 1320px) {
+  .caps__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1000px) {
+  .profile__grid {
+    grid-template-columns: 1fr;
+  }
+  .portrait {
+    position: relative;
+    top: 0;
+    max-width: 300px;
+  }
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stat:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 760px) {
+  .caps__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .timeline__item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .facts__row {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+  .connect__item {
+    font-size: 12px;
+  }
+}
