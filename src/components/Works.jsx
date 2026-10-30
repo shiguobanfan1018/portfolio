@@ -38,10 +38,32 @@ function SoundOff() {
   );
 }
 
-/* ── 视频卡：默认静音循环，可开声音 ── */
-function VideoBlock({ media }) {
+function Play() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+      <path d="M5.2 3.4 12.4 8l-7.2 4.6V3.4Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+/* ── 视频卡：默认静音循环，可开声音，也可点开整段成片 ── */
+function VideoBlock({ media, onOpen, paused }) {
   const ref = useRef(null);
+  const wasPlaying = useRef(false);
   const [muted, setMuted] = useState(true);
+
+  /* 弹层打开时卡里的循环片停住（避免两层声音叠在一起），关掉再接着播 */
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (paused) {
+      wasPlaying.current = !v.paused;
+      v.pause();
+    } else if (wasPlaying.current) {
+      wasPlaying.current = false;
+      v.play().catch(() => {});
+    }
+  }, [paused]);
 
   const toggle = () => {
     const v = ref.current;
@@ -49,6 +71,10 @@ function VideoBlock({ media }) {
     v.muted = !v.muted;
     if (!v.muted) v.play().catch(() => {});
     setMuted(v.muted);
+  };
+
+  const open = () => {
+    onOpen?.();
   };
 
   return (
@@ -69,30 +95,56 @@ function VideoBlock({ media }) {
         playsInline
         preload="metadata"
       />
-      <SpecularButton
-        className="work__sound"
-        onClick={toggle}
-        type="button"
-        aria-label={muted ? "打开声音" : "关闭声音"}
-        size="sm"
-        radius={15}
-        tint="#f4f1e9"
-        tintOpacity={0.07}
-        blur={8}
-        textColor="rgba(246, 244, 233, 0.92)"
-        lineColor="#ffffff"
-        baseColor="#57524c"
-        intensity={0.9}
-        idleIntensity={0.26}
-        shineSize={9}
-        shineFade={32}
-        thickness={1}
-        glow={0.7}
-        proximity={180}
-      >
-        {muted ? <SoundOff /> : <SoundOn />}
-        <span>{muted ? "静音" : "声音"}</span>
-      </SpecularButton>
+      <div className="work__actions">
+        <SpecularButton
+          className="work__act work__act--play"
+          onClick={open}
+          type="button"
+          aria-label={`播放完整版：${media.caption || "成片"}`}
+          size="sm"
+          radius={15}
+          tint="#f4f1e9"
+          tintOpacity={0.07}
+          blur={8}
+          textColor="rgba(246, 244, 233, 0.92)"
+          lineColor="#ffffff"
+          baseColor="#57524c"
+          intensity={0.9}
+          idleIntensity={0.3}
+          shineSize={9}
+          shineFade={32}
+          thickness={1}
+          glow={0.7}
+          proximity={180}
+        >
+          <Play />
+          <span>{media.openLabel || "播放成片"}</span>
+        </SpecularButton>
+        <SpecularButton
+          className="work__act work__sound"
+          onClick={toggle}
+          type="button"
+          aria-label={muted ? "打开声音" : "关闭声音"}
+          size="sm"
+          radius={15}
+          tint="#f4f1e9"
+          tintOpacity={0.07}
+          blur={8}
+          textColor="rgba(246, 244, 233, 0.92)"
+          lineColor="#ffffff"
+          baseColor="#57524c"
+          intensity={0.9}
+          idleIntensity={0.26}
+          shineSize={9}
+          shineFade={32}
+          thickness={1}
+          glow={0.7}
+          proximity={180}
+        >
+          {muted ? <SoundOff /> : <SoundOn />}
+          <span>{muted ? "静音" : "声音"}</span>
+        </SpecularButton>
+      </div>
       <span className="work__cap">{media.caption}</span>
     </div>
   );
@@ -197,8 +249,12 @@ function DataBlock({ work }) {
   );
 }
 
-/* ── 长图查看器：整张铺开，滚轮上下看，Esc / 点背景关闭 ── */
+/* ── 查看器：图片整张铺开滚轮看；视频铺满带控件播放。Esc / 点背景关闭 ── */
 function Viewer({ item, onClose }) {
+  const videoRef = useRef(null);
+  const isVideo = item.type === "video";
+  const [blocked, setBlocked] = useState(false);
+
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -210,8 +266,30 @@ function Viewer({ item, onClose }) {
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
+      /* 关掉弹层就彻底停，不留后台声音 */
+      const v = videoRef.current;
+      if (v) {
+        v.pause();
+        v.removeAttribute("src");
+        v.load();
+      }
     };
   }, [onClose]);
+
+  /* 浏览器可能拦掉有声自动播放：先试有声，被拒就静音接着播，实在不行把控件留给用户 */
+  useEffect(() => {
+    if (!isVideo) return;
+    const v = videoRef.current;
+    if (!v) return;
+    const p = v.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => {
+        v.muted = true;
+        const retry = v.play();
+        if (retry && typeof retry.catch === "function") retry.catch(() => setBlocked(true));
+      });
+    }
+  }, [isVideo, item.src]);
 
   return (
     <div
@@ -224,7 +302,13 @@ function Viewer({ item, onClose }) {
       <div className="viewer__bar" onClick={(e) => e.stopPropagation()}>
         <span className="viewer__label">{item.label}</span>
         <span className="viewer__hint">
-          {item.poster ? "点击背景或 Esc 关闭" : "滚轮上下浏览　Esc 关闭"}
+          {isVideo
+            ? blocked
+              ? "点播放键开始　Esc 关闭"
+              : "播放中　点击背景或 Esc 关闭"
+            : item.poster
+              ? "点击背景或 Esc 关闭"
+              : "滚轮上下浏览　Esc 关闭"}
         </span>
         <SpecularButton
           className="viewer__close"
@@ -253,12 +337,28 @@ function Viewer({ item, onClose }) {
         </SpecularButton>
       </div>
 
-      <figure className="viewer__box" onClick={(e) => e.stopPropagation()}>
-        <img
-          src={item.src}
-          alt={item.label}
-          className={item.poster ? "viewer__img viewer__img--poster" : "viewer__img"}
-        />
+      <figure
+        className={`viewer__box${isVideo ? " viewer__box--video" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {isVideo ? (
+          <video
+            ref={videoRef}
+            className="viewer__video"
+            src={item.src}
+            poster={item.poster}
+            controls
+            autoPlay
+            playsInline
+            preload="auto"
+          />
+        ) : (
+          <img
+            src={item.src}
+            alt={item.label}
+            className={item.poster ? "viewer__img viewer__img--poster" : "viewer__img"}
+          />
+        )}
         <figcaption className="viewer__cap">{item.note}</figcaption>
       </figure>
     </div>
@@ -355,7 +455,21 @@ export default function Works() {
                 data-reveal-delay={i * 60}
               >
                 <div className="work__media-col">
-                  {w.media.type === "video" && <VideoBlock media={w.media} />}
+                  {w.media.type === "video" && (
+                    <VideoBlock
+                      media={w.media}
+                      paused={!!viewer}
+                      onOpen={() =>
+                        setViewer({
+                          type: "video",
+                          src: w.media.src,
+                          poster: w.media.poster,
+                          label: w.title,
+                          note: w.media.caption,
+                        })
+                      }
+                    />
+                  )}
                   {w.media.type === "image" && (
                     <ImageBlock
                       media={w.media}

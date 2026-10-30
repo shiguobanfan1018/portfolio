@@ -113,11 +113,18 @@
   filter: brightness(1) saturate(1) contrast(1.03);
 }
 
-.work__sound {
+/* 视频卡右下角的操作条：播放成片 + 静音切换 */
+.work__actions {
   position: absolute;
   right: 14px;
   bottom: 12px;
   z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.work__act {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -135,7 +142,7 @@
 
 /* 玻璃棱镜按钮：原来那层黑底换成 tint 玻璃，hover 只轻微提亮，
    主角让给边缘那道跟着鼠标跑的光 */
-.work__sound.specular-button {
+.work__act.specular-button {
   height: 30px;
   padding: 0 12px;
   gap: 7px;
@@ -146,13 +153,22 @@
   background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 100%), transparent);
 }
 
-.work__sound.specular-button:hover {
+.work__act.specular-button:hover {
   background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 300%), transparent);
   color: #fffdf7;
 }
 
-.work__sound.specular-button svg {
+.work__act.specular-button svg {
   color: var(--accent);
+}
+
+/* 主动作：播放按钮比静音更亮一点，一眼看到 */
+.work__act--play.specular-button {
+  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 180%), transparent);
+}
+
+.work__act--play.specular-button:hover {
+  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 420%), transparent);
 }
 
 /* 长图：悬停上下浏览 */
@@ -905,6 +921,23 @@
   text-transform: uppercase;
   color: var(--text-4);
   text-align: center;
+}
+
+/* 视频弹层：铺到接近满宽，控件交给浏览器原生播放器 */
+.viewer__box--video {
+  padding-top: 6px;
+}
+
+.viewer__video {
+  display: block;
+  width: min(1240px, 100%);
+  max-height: 76vh;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #000;
+  box-shadow: 0 40px 90px -50px #000;
+  cursor: default;
 }
 
 /* ── 响应式 ── */
