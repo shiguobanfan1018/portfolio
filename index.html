@@ -9,27 +9,12 @@
       name="description"
       content="石超的个人作品集 —— 以视觉为媒介，用设计传递表达。品牌 VIS、海报版式、文创视觉、二维动画与短视频。"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- 字体 CSS 非阻塞加载：不挡首帧，加载完再应用（display=swap 先用系统字体顶住）。
-         字重只保留 CSS 里真正用到的：Inter 400-700、思源黑体 400/500/600/700/900、思源宋体 600 -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@600&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@600&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@600&display=swap"
-      />
-    </noscript>
+    <!-- 站点图标 -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- 字体已自托管并按站点用字子集化（见 src/styles/fonts.css），
+         不再依赖 Google Fonts，国内访问不会因 CDN 被拦而回退系统字体 -->
     <!-- 首屏封面帧提前拉：视频起播前它就是最大的可见画面 -->
     <link rel="preload" as="image" href="/hero-bg-poster.webp" fetchpriority="high" />
   </head>

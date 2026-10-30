@@ -1,0 +1,89 @@
+@charset "UTF-8";
+/**
+ * fonts.css —— 自托管字体（按本站实际用字做子集化）
+ *
+ * 为什么不再用 Google Fonts：
+ *   国内访问 fonts.googleapis.com / fonts.gstatic.com 不稳定，一旦被拦，
+ *   中文会整段回退到系统字体，标题的思源宋体气质就没了。
+ *   这里把用到的 967 个字符（823 个汉字 + 拉丁 + 标点）打进字体子集，
+ *   总量 ≈ 800KB，只下载页面实际用到的字重，且长期缓存。
+ *
+ * 换文案 / 加文字后如果出现「个别字字形不一致」，说明该字不在子集内，
+ *   需要重新生成子集（工具脚本思路：google fonts 切片 → merge → pyftsubset）。
+ */
+
+/* ── Inter：拉丁与数字 ── */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/inter-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/inter-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/inter-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/inter-700.woff2") format("woff2");
+}
+
+/* ── 思源黑体 Noto Sans SC：正文与标题 ── */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-900.woff2") format("woff2");
+}
+
+/* ── 思源宋体 Noto Serif SC：香槟色衬线强调 ── */
+@font-face {
+  font-family: "Noto Serif SC";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/noto-serif-sc-600.woff2") format("woff2");
+}
