@@ -1,0 +1,45 @@
+@charset "UTF-8";
+/**
+ * fonts-rest.css —— 全站字集（滚动区用到的字）
+ *
+ * 由 main.jsx 在页面 load + 空闲后动态注入，不参与首屏关键路径。
+ * 同 family / 同字重，后声明覆盖先声明，所以注入后全站自动切到完整字形。
+ * 万一用户在这之前就滚下去了，font-display: swap 会先用系统字体顶住，
+ * 字形到位后自动替换，不会出现缺字或排版跳动。
+ */
+
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../assets/fonts/noto-sans-sc-900.woff2") format("woff2");
+}

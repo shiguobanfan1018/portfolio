@@ -34,15 +34,25 @@ export default function BelowBackdrop() {
   /* 空闲期预取碎片场代码：现在它在滚过首屏那一刻才开始下载 225KB 的
      chunk 并初始化 WebGPU，正好砸出滚动长帧。提前拉好，滚过去只做初始化。 */
   useEffect(() => {
+    let id;
+    let t;
     const start = () => {
       import("./AeroShards.jsx").catch(() => {});
     };
-    if (typeof window.requestIdleCallback === "function") {
-      const id = window.requestIdleCallback(start, { timeout: 5000 });
-      return () => window.cancelIdleCallback?.(id);
-    }
-    const t = window.setTimeout(start, 3000);
-    return () => window.clearTimeout(t);
+    /* 等页面 load 完再排期：这段 225KB 的代码不能在首屏和 HTML/CSS/字体抢带宽 */
+    const schedule = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        id = window.requestIdleCallback(start, { timeout: 8000 });
+      } else {
+        t = window.setTimeout(start, 5000);
+      }
+    };
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+    return () => {
+      window.cancelIdleCallback?.(id);
+      window.clearTimeout(t);
+    };
   }, []);
 
   return (

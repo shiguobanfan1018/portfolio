@@ -48,7 +48,7 @@ export const hero = {
   ],
   reel: {
     video: asset("/hero-loop.mp4"),
-    poster: asset("/showreel-poster.jpg"),
+    poster: asset("/showreel-poster.webp"),
     label: "SHOWREEL 作品片花",
     note: "静音循环",
   },
@@ -124,10 +124,12 @@ export const works = [
     metric: "一次过审 0 返修",
     media: {
       type: "video",
+      /* src = 完整成片（点「播放成片」才加载）；loopSrc = 卡片里循环的 4 秒小片 */
       src: asset("/showreel.mp4"),
-      poster: asset("/showreel-poster.jpg"),
+      loopSrc: asset("/shenyi-loop.mp4"),
+      poster: asset("/showreel-poster.webp"),
       ratio: "16 / 9",
-      caption: "成片节选 21 秒",
+      caption: "循环片段 4 秒　完整成片 21 秒",
     },
     highlights: [
       "原画绘制：角色、道具与场景素材按项目风格统一",

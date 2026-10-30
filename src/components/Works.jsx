@@ -65,6 +65,36 @@ function VideoBlock({ media, onOpen, paused }) {
     }
   }, [paused]);
 
+  /* 卡片里只播一段 4 秒的循环小片（189KB），完整成片在点「播放成片」时才下 */
+  const wrapRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return undefined;
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (v && inView && !paused) v.play().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
+
   const toggle = () => {
     const v = ref.current;
     if (!v) return;
@@ -79,6 +109,7 @@ function VideoBlock({ media, onOpen, paused }) {
 
   return (
     <div
+      ref={wrapRef}
       className="work__media work__media--video"
       style={{ aspectRatio: media.ratio }}
       data-reveal="img"
@@ -87,13 +118,13 @@ function VideoBlock({ media, onOpen, paused }) {
       <video
         ref={ref}
         className="work__video"
-        src={media.src}
+        src={inView ? media.loopSrc || media.src : undefined}
         poster={media.poster}
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload={inView ? "auto" : "none"}
       />
       <div className="work__actions">
         <SpecularButton

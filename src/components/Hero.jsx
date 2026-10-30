@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SplitText from "./SplitText.jsx";
 import CursorGlow from "./CursorGlow.jsx";
 import { prefersReduced } from "../lib/motion.js";
@@ -54,6 +54,37 @@ function HeroIcon({ name }) {
 
 export default function Hero() {
   const videoRef = useRef(null);
+  /* 背景视频不参与首屏关键路径：先把封面帧（webp）画出来，
+     等页面 load 完、浏览器空下来再挂 src，避免 1.8MB 的视频和首帧抢带宽。 */
+  const [bgSrc, setBgSrc] = useState("");
+
+  useEffect(() => {
+    if (prefersReduced()) return undefined;
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      setBgSrc(asset("/hero-bg.mp4"));
+    };
+    const idle =
+      window.requestIdleCallback || ((fn) => setTimeout(fn, 300));
+    if (document.readyState === "complete") {
+      idle(start, { timeout: 1500 });
+    } else {
+      window.addEventListener("load", () => idle(start, { timeout: 800 }), {
+        once: true,
+      });
+      setTimeout(start, 3000); // 兜底：再慢也开始下
+    }
+    return undefined;
+  }, []);
+
+  /* src 挂上之后再起播（原来挂载时 src 还是空的，play 会失败） */
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || !bgSrc || prefersReduced()) return;
+    v.play().catch(() => {});
+  }, [bgSrc]);
 
   /* 背景片子只在首屏里播：滚出去就暂停，别让它在下面白烧 GPU 和电量。
      系统开了「减弱动态效果」就不自动播，留在封面帧当静态图。 */
@@ -87,13 +118,12 @@ export default function Hero() {
         <video
           ref={videoRef}
           className="hero__bg"
-          src={asset("/hero-bg.mp4")}
+          src={bgSrc || undefined}
           poster={asset("/hero-bg-poster.webp")}
-          autoPlay={!prefersReduced()}
           muted
           loop
           playsInline
-          preload="auto"
+          preload={bgSrc ? "auto" : "none"}
           disablePictureInPicture
           tabIndex={-1}
         />
